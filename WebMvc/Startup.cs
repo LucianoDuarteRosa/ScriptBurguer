@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using WebMvc.Context;
 using Microsoft.EntityFrameworkCore;
+using WebMvc.Repositories.Interfaces;
+using WebMvc.Repositories;
 
 namespace WebMvc
 {
@@ -31,7 +33,12 @@ namespace WebMvc
         {
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<ICategoriaRepository>();
+            services.AddTransient<ILancheRepository>();
+            services.AddTransient<LancheRepository>();
+            services.AddTransient<CategoriaRepository>();
             services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
