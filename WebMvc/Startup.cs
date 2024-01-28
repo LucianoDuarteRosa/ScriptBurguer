@@ -33,12 +33,19 @@ namespace WebMvc
         {
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<ICategoriaRepository>();
-            services.AddTransient<ILancheRepository>();
-            services.AddTransient<LancheRepository>();
-            services.AddTransient<CategoriaRepository>();
-            services.AddControllersWithViews();
+           
+            //Adicionar o serviço de repository para usar o acesso a dados a uma unica classe
+            services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+            services.AddTransient<ILancheRepository, LancheRepository>();
 
+            //tempo de vida que o cookie vai ficar no local -> no caso abaixo enquanto durar a aplicação
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            //para armazenar dados de cache so site(acima tempo de vida)--precisa inicialição o serviço
+            services.AddMemoryCache();
+            services.AddSession();
+            
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +65,8 @@ namespace WebMvc
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
+            //para armazenar dados de cache so site(dados do carrinho de compras)-.aqui inicializa o serviço
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
