@@ -1,14 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebMvc.Models;
+using WebMvc.Repositories.Interfaces;
+using WebMvc.ViewModels;
 
 namespace WebMvc.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILancheRepository _lancherepository;
+
+        public HomeController(ILancheRepository lancheRepository)
+        {
+            _lancherepository = lancheRepository;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var homeViewModel = new HomeViewModel
+            {
+                LancheEmPromocao = _lancherepository.LanchesEmPromocao
+            };
+            return View(homeViewModel);
         }
 
         public IActionResult List()
