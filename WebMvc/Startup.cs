@@ -30,6 +30,8 @@ namespace WebMvc
               .AddEntityFrameworkStores<AppDbContext>()
               .AddDefaultTokenProviders();
 
+            services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationPastaImagens"));
+
             //Adicionar o serviço de repository para usar o acesso a dados a uma unica classe
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<ILancheRepository, LancheRepository>();
