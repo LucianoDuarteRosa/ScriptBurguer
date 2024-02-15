@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Globalization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+﻿using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using WebMvc.Context;
 using Microsoft.EntityFrameworkCore;
 using WebMvc.Repositories.Interfaces;
@@ -19,6 +6,8 @@ using WebMvc.Repositories;
 using WebMvc.Models;
 using Microsoft.AspNetCore.Identity;
 using WebMvc.Services;
+using ReflectionIT.Mvc.Paging;
+using WebMvc.Areas.Admin.Servicos;
 
 namespace WebMvc
 {
@@ -46,6 +35,7 @@ namespace WebMvc
             services.AddTransient<ILancheRepository, LancheRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+            services.AddScoped<RelatorioVendasService>();
 
             services.AddAuthorization(options =>
             {
@@ -67,6 +57,13 @@ namespace WebMvc
             services.AddSession();
             
             services.AddControllersWithViews();
+
+            services.AddPaging(options =>
+            {
+                options.ViewName = "Bootstrap4";
+                options.PageParameterName = "pageindex";
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
