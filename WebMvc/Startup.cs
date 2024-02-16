@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using WebMvc.Services;
 using ReflectionIT.Mvc.Paging;
 using WebMvc.Areas.Admin.Servicos;
+using WebMvc.Areas.Admin.Servicos;
 
 namespace WebMvc
 {
@@ -38,6 +39,7 @@ namespace WebMvc
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
             services.AddScoped<RelatorioVendasService>();
+            services.AddScoped<GraficoVendasService>();
 
             services.AddAuthorization(options =>
             {
